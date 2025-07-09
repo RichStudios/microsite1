@@ -2,181 +2,23 @@
   "version": 2,
   "name": "betcompare-frontend",
   "regions": ["iad1"],
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next@latest",
-      "config": {
-        "distDir": ".next"
-      }
-    }
-  ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "https://api.betcompare.co.ke/api/$1",
-      "headers": {
-        "Access-Control-Allow-Origin": "https://betcompare.co.ke",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      }
-    },
-    {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/manifest.json"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+    // ... (keep your existing routes array)
   ],
   "env": {
-    "NEXT_PUBLIC_SITE_URL": "https://betcompare.co.ke",
-    "NEXT_PUBLIC_API_URL": "https://api.betcompare.co.ke",
-    "NEXT_PUBLIC_SITE_NAME": "BetCompare.co.ke",
-    "NEXT_PUBLIC_SITE_DESCRIPTION": "Compare Kenya's Best Betting Sites",
-    "NEXT_PUBLIC_ENABLE_ANALYTICS": "true",
-    "NEXT_PUBLIC_ENABLE_PWA": "true",
-    "NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING": "true",
-    "NEXT_PUBLIC_ENABLE_SECURITY_HEADERS": "true"
+    // ... (keep your existing env variables)
   },
   "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=31536000; includeSubDomains; preload"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.betcompare.co.ke https://www.google-analytics.com https://vitals.vercel-insights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
-        }
-      ]
-    },
-    {
-      "source": "/images/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Vary",
-          "value": "Accept-Encoding"
-        }
-      ]
-    },
-    {
-      "source": "/fonts/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Vary",
-          "value": "Accept-Encoding"
-        }
-      ]
-    },
-    {
-      "source": "/icons/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/_next/static/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/((?!api).*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
-        }
-      ]
-    }
+    // ... (keep your existing headers)
   ],
   "redirects": [
-    {
-      "source": "/home",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/bookmakers",
-      "destination": "/compare",
-      "permanent": true
-    },
-    {
-      "source": "/index.html",
-      "destination": "/",
-      "permanent": true
-    }
+    // ... (keep your existing redirects)
   ],
   "rewrites": [
-    {
-      "source": "/bookmaker/:slug",
-      "destination": "/bookmaker/[slug]"
-    },
-    {
-      "source": "/review/:slug",
-      "destination": "/review/[slug]"
-    },
-    {
-      "source": "/blog/:slug",
-      "destination": "/blog/[slug]"
-    },
-    {
-      "source": "/category/:slug",
-      "destination": "/category/[slug]"
-    }
+    // ... (keep your existing rewrites)
   ],
   "functions": {
-    "frontend/pages/api/revalidate.js": {
+    "pages/api/revalidate.js": {
       "maxDuration": 30
     }
   },
@@ -190,8 +32,9 @@
     "enabled": true,
     "autoAlias": true
   },
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "installCommand": "npm install",
-  "devCommand": "npm run dev"
-} 
+  // Remove these if not needed (Vercel usually detects them automatically):
+  // "buildCommand": "npm run build",
+  // "outputDirectory": ".next",
+  // "installCommand": "npm install",
+  // "devCommand": "npm run dev"
+}
