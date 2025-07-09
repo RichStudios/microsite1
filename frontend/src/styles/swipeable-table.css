@@ -1,0 +1,282 @@
+/* ========================================
+   SWIPEABLE TABLE COMPONENT STYLES
+   ======================================== */
+
+/* Hide scrollbars across all browsers */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Opera */
+}
+
+/* Smooth scrolling for all elements within swipeable tables */
+.swipeable-table * {
+  scroll-behavior: smooth;
+}
+
+/* Touch-friendly scrolling enhancements */
+.swipeable-table-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.swipeable-table-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Snap points for child elements */
+.swipeable-table-item {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Enhanced table styling for mobile */
+.mobile-comparison-table {
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.mobile-comparison-table th,
+.mobile-comparison-table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.mobile-comparison-table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* First column sticky on mobile */
+.mobile-comparison-table th:first-child,
+.mobile-comparison-table td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: white;
+  z-index: 1;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-comparison-table th:first-child {
+  z-index: 3;
+  background-color: #f9fafb;
+}
+
+/* Hover effects for better UX */
+.mobile-comparison-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Card-style mobile table alternative */
+.mobile-comparison-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm);
+}
+
+.mobile-comparison-card {
+  background: white;
+  border-radius: 12px;
+  padding: var(--spacing-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  scroll-snap-align: start;
+  min-width: 280px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mobile-comparison-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-comparison-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mobile-comparison-card-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: contain;
+  margin-right: var(--spacing-md);
+}
+
+.mobile-comparison-card-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.mobile-comparison-card-rating {
+  font-size: var(--text-sm);
+  color: #6b7280;
+  margin: 0;
+}
+
+.mobile-comparison-card-features {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.mobile-comparison-feature {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+}
+
+.mobile-comparison-feature-label {
+  font-size: var(--text-sm);
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.mobile-comparison-feature-value {
+  font-size: var(--text-sm);
+  color: #1f2937;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Action buttons in cards */
+.mobile-comparison-card-actions {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid #e5e7eb;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+}
+
+.mobile-comparison-card-button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 8px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s ease;
+  min-height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.mobile-comparison-card-button-primary {
+  background: linear-gradient(135deg, #ff6b00, #ff8533);
+  color: white;
+  border: none;
+}
+
+.mobile-comparison-card-button-primary:hover {
+  background: linear-gradient(135deg, #e55100, #ff6b00);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+}
+
+.mobile-comparison-card-button-secondary {
+  background: white;
+  color: #1a1f36;
+  border: 2px solid #e5e7eb;
+}
+
+.mobile-comparison-card-button-secondary:hover {
+  border-color: #ff6b00;
+  color: #ff6b00;
+  background: rgba(255, 107, 0, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .mobile-comparison-cards {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-xs);
+  }
+  
+  .mobile-comparison-card {
+    min-width: unset;
+    margin: 0 var(--spacing-xs);
+  }
+  
+  .mobile-comparison-card-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Scroll indicators */
+.scroll-indicators {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+}
+
+.scroll-indicator {
+  width: 32px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #e5e7eb;
+  transition: background-color 0.3s ease;
+}
+
+.scroll-indicator.active {
+  background-color: #ff6b00;
+}
+
+/* Animation for smooth transitions */
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-comparison-card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .mobile-comparison-card-button {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-comparison-card,
+  .mobile-comparison-card-button {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .mobile-comparison-card {
+    border: 2px solid #000;
+  }
+  
+  .mobile-comparison-card-button-primary {
+    background: #000;
+    color: #fff;
+  }
+  
+  .mobile-comparison-card-button-secondary {
+    border-color: #000;
+    color: #000;
+  }
+} 

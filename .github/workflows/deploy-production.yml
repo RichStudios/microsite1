@@ -1,0 +1,351 @@
+name: 🚀 Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '18'
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+  
+jobs:
+  # 🧪 Testing & Quality Assurance
+  test:
+    name: 🧪 Test & Quality Checks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['18', '20']
+    
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          
+      - name: 📥 Install dependencies
+        run: npm ci
+        
+      - name: 🔍 Run ESLint
+        run: npm run lint
+        
+      - name: 🧪 Run backend tests
+        run: npm run test --workspace=backend
+        env:
+          NODE_ENV: test
+          MONGODB_URI: ${{ secrets.MONGODB_URI_TEST }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET_TEST }}
+          
+      - name: 🧪 Run frontend tests
+        run: npm run test --workspace=frontend
+        env:
+          NODE_ENV: test
+          NEXT_PUBLIC_API_URL: http://localhost:5000
+          
+      - name: 🔐 Security audit
+        run: npm audit --audit-level=high
+        
+      - name: 🔍 Type checking
+        run: npm run type-check --workspace=frontend
+        
+      - name: 📊 Generate test coverage
+        run: npm run test:coverage --workspace=backend
+        
+      - name: 📤 Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./backend/coverage/lcov.info
+          flags: backend
+          name: backend-coverage
+          
+  # 🚀 Build & Performance Testing
+  build:
+    name: 🏗️ Build & Performance
+    runs-on: ubuntu-latest
+    needs: test
+    
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📥 Install dependencies
+        run: npm ci
+        
+      - name: 🏗️ Build backend
+        run: npm run build --workspace=backend
+        env:
+          NODE_ENV: production
+          MONGODB_URI: mongodb://localhost:27017/betcompare_test
+          
+      - name: 🏗️ Build frontend
+        run: npm run build --workspace=frontend
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_API_URL: http://localhost:5000
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+          
+      - name: 🚀 Start services for testing
+        run: |
+          npm run start --workspace=backend &
+          sleep 10
+          npm run start --workspace=frontend &
+          sleep 15
+        env:
+          NODE_ENV: production
+          MONGODB_URI: mongodb://localhost:27017/betcompare_test
+          PORT: 5000
+          
+      - name: 🔍 Wait for services
+        run: |
+          timeout 60 bash -c 'until curl -f http://localhost:5000/health; do sleep 2; done'
+          timeout 60 bash -c 'until curl -f http://localhost:3000; do sleep 2; done'
+          
+      - name: 📊 Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun --upload.target=temporary-public-storage
+        env:
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+          LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
+          LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
+          
+      - name: 📈 Performance budget check
+        run: |
+          node -e "
+          const { execSync } = require('child_process');
+          const lighthouse = execSync('lighthouse http://localhost:3000 --output json --only-categories performance,accessibility,best-practices,seo --chrome-flags=\"--headless\"', { encoding: 'utf8' });
+          const report = JSON.parse(lighthouse);
+          const scores = report.categories;
+          
+          console.log('🎯 Lighthouse Scores:');
+          console.log('Performance:', scores.performance.score * 100);
+          console.log('Accessibility:', scores.accessibility.score * 100);
+          console.log('Best Practices:', scores['best-practices'].score * 100);
+          console.log('SEO:', scores.seo.score * 100);
+          
+          // Fail if scores are below thresholds
+          if (scores.performance.score < 0.8) process.exit(1);
+          if (scores.accessibility.score < 0.9) process.exit(1);
+          if (scores['best-practices'].score < 0.85) process.exit(1);
+          if (scores.seo.score < 0.9) process.exit(1);
+          "
+          
+  # 🔐 Security Scanning
+  security:
+    name: 🔐 Security Scan
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: 🔍 Run CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          
+      - name: 🔍 Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        
+      - name: 🔐 Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/nodejs
+            p/react
+            
+      - name: 🔍 Dependency vulnerability scan
+        run: |
+          npm install -g snyk
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk test --all-projects
+          
+  # 🚀 Deploy to Production
+  deploy:
+    name: 🚀 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [test, build, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    environment:
+      name: production
+      url: https://betcompare.co.ke
+      
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📥 Install dependencies
+        run: npm ci
+        
+      - name: 🏗️ Build for production
+        run: npm run build
+        env:
+          NODE_ENV: production
+          
+      # Deploy Frontend to Vercel
+      - name: 🚀 Deploy Frontend to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./frontend
+          vercel-args: '--prod'
+          
+      # Deploy Backend to Railway
+      - name: 🚀 Deploy Backend to Railway
+        uses: bervProject/railway-deploy@v1.0.0
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: backend
+          
+      # Update MongoDB Atlas with production data
+      - name: 🗄️ Update Database
+        run: |
+          node -e "
+          const { MongoClient } = require('mongodb');
+          (async () => {
+            const client = new MongoClient('${{ secrets.MONGODB_URI }}');
+            await client.connect();
+            const db = client.db('betcompare');
+            
+            // Update deployment timestamp
+            await db.collection('deployments').insertOne({
+              timestamp: new Date(),
+              commit: '${{ github.sha }}',
+              branch: '${{ github.ref_name }}',
+              environment: 'production'
+            });
+            
+            await client.close();
+          })();
+          "
+          
+      - name: 🔍 Health check
+        run: |
+          sleep 30
+          curl -f https://betcompare.co.ke/health || exit 1
+          curl -f https://api.betcompare.co.ke/health || exit 1
+          
+      - name: 📊 Post-deployment monitoring
+        run: |
+          # Send deployment notification to Slack
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{
+              "text": "🚀 BetCompare.co.ke deployed successfully!",
+              "attachments": [{
+                "color": "good",
+                "fields": [{
+                  "title": "Commit",
+                  "value": "${{ github.sha }}",
+                  "short": true
+                }, {
+                  "title": "Branch",
+                  "value": "${{ github.ref_name }}",
+                  "short": true
+                }, {
+                  "title": "Environment",
+                  "value": "Production",
+                  "short": true
+                }]
+              }]
+            }' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+            
+  # 📊 Post-deployment verification
+  verify:
+    name: 📊 Post-Deployment Verification
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: 🔍 End-to-end tests
+        run: |
+          npm install -g playwright
+          npx playwright install
+          npx playwright test --config=playwright.config.production.js
+        env:
+          BASE_URL: https://betcompare.co.ke
+          API_URL: https://api.betcompare.co.ke
+          
+      - name: 📊 Performance verification
+        run: |
+          lighthouse https://betcompare.co.ke --output json --only-categories performance > lighthouse-prod.json
+          node -e "
+          const report = require('./lighthouse-prod.json');
+          const performance = report.categories.performance.score * 100;
+          console.log('Production Performance Score:', performance);
+          if (performance < 80) {
+            console.error('Performance score below threshold!');
+            process.exit(1);
+          }
+          "
+          
+      - name: 🔐 Security verification
+        run: |
+          # SSL/TLS verification
+          curl -I https://betcompare.co.ke | grep -i "strict-transport-security" || exit 1
+          
+          # Security headers verification
+          curl -I https://betcompare.co.ke | grep -i "x-content-type-options" || exit 1
+          curl -I https://betcompare.co.ke | grep -i "x-frame-options" || exit 1
+          
+      - name: 📊 Uptime monitoring setup
+        run: |
+          # Register with uptime monitoring service
+          curl -X POST https://api.uptimerobot.com/v2/newMonitor \
+            -H "Content-Type: application/json" \
+            -d '{
+              "api_key": "${{ secrets.UPTIMEROBOT_API_KEY }}",
+              "format": "json",
+              "type": "1",
+              "url": "https://betcompare.co.ke",
+              "friendly_name": "BetCompare Production",
+              "interval": "300"
+            }' || echo "Monitor may already exist"
+            
+      - name: 📈 Success notification
+        run: |
+          echo "🎉 Deployment completed successfully!"
+          echo "🌐 Frontend: https://betcompare.co.ke"
+          echo "🔧 Backend: https://api.betcompare.co.ke"
+          echo "📊 Monitoring: Active"
+          echo "🔐 Security: Verified"
+          echo "⚡ Performance: Optimized" 

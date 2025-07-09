@@ -1,0 +1,278 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": "mobile-1",
+        "title": "Implement mobile-first responsive breakpoints system",
+        "description": "Create a comprehensive responsive breakpoints system supporting 320px, 480px, 768px, and 1024px+ breakpoints with mobile-first approach",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [],
+        "details": "Define CSS custom properties for breakpoints, implement mobile-first media queries, create responsive utility classes, and ensure consistent breakpoint usage across all components",
+        "testStrategy": "Test on various device sizes and orientations, validate breakpoint transitions, ensure no layout breaks at edge cases"
+      },
+      {
+        "id": "mobile-2",
+        "title": "Create mobile-optimized CSS/SCSS with mobile-first media queries",
+        "description": "Enhance existing CSS with comprehensive mobile-first styling approach",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "mobile-1"
+        ],
+        "details": "Refactor existing CSS to use mobile-first approach, optimize typography scales for mobile, improve spacing and layout for touch interfaces",
+        "testStrategy": "Visual regression testing on mobile devices, performance testing of CSS bundle size"
+      },
+      {
+        "id": "mobile-3",
+        "title": "Implement sticky mobile header with hamburger menu navigation",
+        "description": "Enhance existing header with improved mobile navigation experience",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "mobile-2"
+        ],
+        "details": "Improve mobile menu UX, add smooth animations, implement backdrop blur effects, ensure proper z-index stacking",
+        "testStrategy": "Test menu functionality on various mobile devices, validate accessibility with screen readers"
+      },
+      {
+        "id": "mobile-4",
+        "title": "Create bottom CTA bar for mobile with primary actions",
+        "description": "Add a sticky bottom action bar for mobile devices with key CTAs",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [
+          "mobile-3"
+        ],
+        "details": "Design and implement a sticky bottom bar with primary actions like 'Compare Now', 'View Bonuses', ensure it doesn't interfere with page content",
+        "testStrategy": "Test on various mobile browsers, validate touch target sizes, ensure proper safe area handling on iOS"
+      },
+      {
+        "id": "mobile-5",
+        "title": "Implement swipeable comparison tables for mobile devices",
+        "description": "Make comparison tables mobile-friendly with horizontal scrolling and swipe gestures",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "mobile-2"
+        ],
+        "details": "Add horizontal scroll with momentum, implement swipe gestures, add scroll indicators, optimize table layout for mobile screens",
+        "testStrategy": "Test swipe functionality on iOS and Android, validate smooth scrolling performance"
+      },
+      {
+        "id": "mobile-6",
+        "title": "Optimize bookmaker cards for mobile with touch-friendly interactions",
+        "description": "Enhance bookmaker cards with mobile-optimized layouts and touch interactions",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [
+          "mobile-2"
+        ],
+        "details": "Redesign card layouts for mobile screens, optimize image loading, improve touch target sizes, add hover states for touch devices",
+        "testStrategy": "Test card interactions on various mobile devices, validate loading performance"
+      },
+      {
+        "id": "mobile-7",
+        "title": "Ensure minimum 48px tap targets for all interactive elements",
+        "description": "Audit and fix all interactive elements to meet minimum touch target size requirements",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "mobile-6"
+        ],
+        "details": "Audit all buttons, links, and interactive elements, ensure 48px minimum size, add proper spacing between touch targets",
+        "testStrategy": "Accessibility audit with automated tools, manual testing on mobile devices"
+      },
+      {
+        "id": "mobile-8",
+        "title": "Implement mobile-optimized bonus display cards",
+        "description": "Create mobile-friendly bonus cards with optimized layouts and interactions",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [
+          "mobile-6"
+        ],
+        "details": "Redesign bonus cards for mobile screens, optimize content hierarchy, improve readability on small screens",
+        "testStrategy": "Test bonus card display on various screen sizes, validate content readability"
+      },
+      {
+        "id": "mobile-9",
+        "title": "Create Progressive Web App (PWA) with service worker and manifest",
+        "description": "Implement PWA features including service worker, web manifest, and offline functionality",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "details": "Create web app manifest, implement service worker for caching, add offline functionality, enable add to home screen",
+        "testStrategy": "Test PWA installation on mobile devices, validate offline functionality, test service worker caching"
+      },
+      {
+        "id": "mobile-10",
+        "title": "Implement mobile-specific performance optimizations",
+        "description": "Add lazy loading, bundle splitting, and other mobile performance optimizations",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "mobile-2"
+        ],
+        "details": "Implement image lazy loading, code splitting for mobile, optimize font loading, reduce bundle sizes, implement mobile-specific caching strategies",
+        "testStrategy": "Performance testing on mobile networks, Core Web Vitals validation, bundle size analysis"
+      },
+      {
+        "id": "mobile-11",
+        "title": "Add mobile-specific analytics tracking for touch interactions",
+        "description": "Implement analytics tracking for mobile-specific user interactions and behaviors",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [],
+        "details": "Track touch interactions, swipe gestures, mobile navigation usage, device-specific metrics",
+        "testStrategy": "Validate analytics data collection on mobile devices, test tracking accuracy"
+      },
+      {
+        "id": "mobile-12",
+        "title": "Optimize mobile forms with touch-friendly inputs and keyboard handling",
+        "description": "Enhance form inputs for mobile devices with proper keyboard handling and touch optimization",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [
+          "mobile-7"
+        ],
+        "details": "Optimize input field sizes, implement proper keyboard types, add input validation feedback, improve form UX on mobile",
+        "testStrategy": "Test form inputs on various mobile keyboards, validate input types and validation"
+      },
+      {
+        "id": "mobile-13",
+        "title": "Implement mobile search interface with optimized UX",
+        "description": "Create a mobile-optimized search interface with improved user experience",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [
+          "mobile-12"
+        ],
+        "details": "Design mobile search overlay, implement search suggestions, optimize search results display for mobile",
+        "testStrategy": "Test search functionality on mobile devices, validate search performance and UX"
+      },
+      {
+        "id": "mobile-14",
+        "title": "Test mobile compatibility across iOS Safari, Android Chrome, and other mobile browsers",
+        "description": "Comprehensive mobile browser testing and compatibility validation",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "mobile-13"
+        ],
+        "details": "Test on iOS Safari, Android Chrome, Samsung Internet, Mobile Firefox, validate cross-browser compatibility",
+        "testStrategy": "Cross-browser testing on real devices, automated browser testing, performance validation"
+      },
+      {
+        "id": "mobile-15",
+        "title": "Conduct mobile performance testing and optimization to meet target metrics",
+        "description": "Final performance testing and optimization to meet mobile performance targets",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "mobile-14"
+        ],
+        "details": "Achieve mobile PageSpeed score >90, optimize Core Web Vitals, reduce mobile load times, final performance tuning",
+        "testStrategy": "Performance testing with real mobile devices and networks, Core Web Vitals measurement, PageSpeed insights validation"
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-09T10:53:58.153Z",
+      "updated": "2025-07-09T10:53:58.153Z",
+      "description": "Tasks for master context"
+    }
+  },
+  "phase-8-deployment": {
+    "tasks": [
+      {
+        "id": "8.1",
+        "title": "Production Environment Setup",
+        "description": "Configure domain, DNS (Cloudflare), SSL/TLS (Let's Encrypt), environment variables for frontend/backend, and MongoDB Atlas production cluster.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.2",
+        "title": "CI/CD Pipeline Setup",
+        "description": "Set up GitHub Actions for test, build, deploy. Integrate Vercel (frontend) and Railway (backend) for automated deployments.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.3",
+        "title": "Frontend Deployment (Vercel)",
+        "description": "Configure vercel.json, set environment variables, deploy frontend, and verify production deployment.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.4",
+        "title": "Backend Deployment (Railway)",
+        "description": "Build Docker image, set environment variables, deploy backend, and verify production deployment.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.5",
+        "title": "Database Setup & Backups",
+        "description": "Configure MongoDB Atlas production cluster, enable automated backups, and set up security policies.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.6",
+        "title": "CDN & Load Balancer",
+        "description": "Set up Cloudflare CDN for static assets, caching, DDoS protection, and configure load balancer/SSL termination.",
+        "status": "pending",
+        "priority": "medium"
+      },
+      {
+        "id": "8.7",
+        "title": "Monitoring & Analytics",
+        "description": "Integrate Sentry, New Relic, Uptime Robot, and Google Analytics for monitoring and analytics.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.8",
+        "title": "Security Hardening",
+        "description": "Implement security headers, rate limiting, HTTPS enforcement, and run vulnerability scans.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.9",
+        "title": "Performance Optimization",
+        "description": "Run Lighthouse, optimize Core Web Vitals, verify CDN caching, and optimize database indexes.",
+        "status": "pending",
+        "priority": "medium"
+      },
+      {
+        "id": "8.10",
+        "title": "Launch Preparation & Checklist",
+        "description": "Complete pre-launch verification, deploy to staging/production, and run health checks.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.11",
+        "title": "Go-Live & Post-Launch Monitoring",
+        "description": "Enable real-time monitoring, alerting, and analytics for the live site.",
+        "status": "pending",
+        "priority": "high"
+      },
+      {
+        "id": "8.12",
+        "title": "Continuous Optimization & Maintenance",
+        "description": "Schedule regular audits, A/B testing, and performance reviews for ongoing improvement.",
+        "status": "pending",
+        "priority": "medium"
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-09T17:18:47.753Z",
+      "updated": "2025-07-09T17:18:47.753Z",
+      "description": "Phase 8: Production Deployment & Launch tasks for BetCompare.co.ke"
+    }
+  }
+}

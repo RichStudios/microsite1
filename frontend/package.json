@@ -1,0 +1,138 @@
+{
+  "name": "betcompare-frontend",
+  "version": "1.0.0",
+  "description": "BetCompare.co.ke Frontend - Next.js Application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "analyze": "ANALYZE=true npm run build",
+    "mobile:test": "node scripts/mobile-test.js",
+    "mobile:test:quick": "node scripts/mobile-test.js quick",
+    "lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./test-results/lighthouse-report.html",
+    "lighthouse:ci": "lhci autorun",
+    "performance:analyze": "npm run build && npm run lighthouse",
+    "pwa:validate": "pwa-asset-generator --manifest ./public/manifest.json",
+    "audit:security": "npm audit && npm audit fix",
+    "optimize:images": "next-optimized-images",
+    "bundle:analyze": "ANALYZE=true npm run build"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "axios": "^1.5.0",
+    "react-query": "^3.39.3",
+    "react-hook-form": "^7.45.4",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.11.0",
+    "react-loading-skeleton": "^3.3.1",
+    "react-modal": "^3.16.1",
+    "react-select": "^5.7.4",
+    "react-share": "^4.4.1",
+    "react-slider": "^2.0.6",
+    "react-transition-group": "^4.4.5",
+    "swiper": "^10.3.1",
+    "framer-motion": "^10.16.4",
+    "intersection-observer": "^0.12.2",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "sharp": "^0.32.6",
+    "styled-components": "^6.0.8",
+    "uuid": "^9.0.1",
+    "workbox-webpack-plugin": "^7.0.0",
+    "next-pwa": "^5.6.0",
+    "web-vitals": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.0",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@types/lodash": "^4.14.197",
+    "@types/uuid": "^9.0.3",
+    "@types/react-modal": "^3.16.0",
+    "@types/react-transition-group": "^4.4.6",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.48.0",
+    "eslint-config-next": "^14.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.6.4",
+    "jest-environment-jsdom": "^29.6.4",
+    "postcss": "^8.4.28",
+    "prettier": "^3.0.3",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
+    "@next/bundle-analyzer": "^14.0.0",
+    "lighthouse": "^11.3.0",
+    "@lhci/cli": "^0.12.0",
+    "puppeteer": "^21.5.0",
+    "playwright": "^1.40.0",
+    "pwa-asset-generator": "^6.3.1",
+    "webpack-bundle-analyzer": "^4.9.1",
+    "next-optimized-images": "^2.6.2",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "imagemin-webp": "^7.0.0"
+  },
+  "keywords": [
+    "betcompare",
+    "betting",
+    "comparison",
+    "kenya",
+    "next.js",
+    "react",
+    "bookmaker",
+    "odds",
+    "mobile",
+    "pwa",
+    "responsive"
+  ],
+  "author": "BetCompare Team",
+  "license": "MIT",
+  "homepage": "https://betcompare.co.ke",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/betcompare/microsite"
+  },
+  "pwa": {
+    "dest": "public",
+    "register": true,
+    "skipWaiting": true,
+    "sw": "sw.js",
+    "scope": "/",
+    "runtimeCaching": [
+      {
+        "urlPattern": "^https://fonts\\.(googleapis|gstatic)\\.com/.*",
+        "handler": "CacheFirst",
+        "options": {
+          "cacheName": "google-fonts",
+          "expiration": {
+            "maxEntries": 4,
+            "maxAgeSeconds": 31536000
+          }
+        }
+      },
+      {
+        "urlPattern": "^https://api\\.(betcompare|analytics)\\..*",
+        "handler": "NetworkFirst",
+        "options": {
+          "cacheName": "api-cache",
+          "networkTimeoutSeconds": 10,
+          "expiration": {
+            "maxEntries": 50,
+            "maxAgeSeconds": 300
+          }
+        }
+      }
+    ]
+  }
+} 
