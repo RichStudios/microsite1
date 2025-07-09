@@ -1,40 +1,21 @@
 {
   "version": 2,
   "name": "betcompare-frontend",
-  "regions": ["iad1"],
+  "builds": [
+    { "src": "package.json", "use": "@vercel/next" }
+  ],
   "routes": [
-    // ... (keep your existing routes array)
+    {
+      "src": "/api/(.*)",
+      "dest": "https://api.betcompare.co.ke/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
   ],
   "env": {
-    // ... (keep your existing env variables)
-  },
-  "headers": [
-    // ... (keep your existing headers)
-  ],
-  "redirects": [
-    // ... (keep your existing redirects)
-  ],
-  "rewrites": [
-    // ... (keep your existing rewrites)
-  ],
-  "functions": {
-    "pages/api/revalidate.js": {
-      "maxDuration": 30
-    }
-  },
-  "crons": [
-    {
-      "path": "/api/revalidate",
-      "schedule": "0 */6 * * *"
-    }
-  ],
-  "github": {
-    "enabled": true,
-    "autoAlias": true
-  },
-  // Remove these if not needed (Vercel usually detects them automatically):
-  // "buildCommand": "npm run build",
-  // "outputDirectory": ".next",
-  // "installCommand": "npm install",
-  // "devCommand": "npm run dev"
-}
+    "NEXT_PUBLIC_SITE_URL": "https://betcompare.co.ke",
+    "NEXT_PUBLIC_API_URL": "https://api.betcompare.co.ke"
+  }
+} 
