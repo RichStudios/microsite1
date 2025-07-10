@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -47,6 +46,21 @@ const BookmakerCard: React.FC<BookmakerCardProps> = ({
   featured = false, 
   compact = false 
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const handleAffiliateClick = () => {
+    setIsLoading(true);
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'affiliate_click', {
+        event_category: 'Bookmaker',
+        event_label: bookmaker.name,
+        value: 1
+      });
+    }
+    // Reset loading state after a delay
+    setTimeout(() => setIsLoading(false), 2000);
+  };
   if (compact) {
     return (
       <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow">

@@ -8,6 +8,7 @@ import Footer from './Footer';
 import MobileBottomNav from './MobileBottomNav';
 import BackToTop from '../ui/BackToTop';
 import CookieConsent from '../ui/CookieConsent';
+import { ScrollProgress } from '../ui/ProgressIndicator';
 
 // Utils
 import { trackUserJourney } from '../../utils/analytics';
@@ -68,10 +69,10 @@ const Layout: React.FC<LayoutProps> = ({
         <meta name="keywords" content={keywords} />
         <meta name="author" content="BetCompare.co.ke" />
         <meta name="robots" content={noIndex ? 'noindex,nofollow' : 'index,follow'} />
-        
+
         {/* Canonical URL */}
         <link rel="canonical" href={fullUrl} />
-        
+
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -80,20 +81,20 @@ const Layout: React.FC<LayoutProps> = ({
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BetCompare.co.ke" />
         <meta property="og:locale" content="en_KE" />
-        
+
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={imageUrl} />
         <meta name="twitter:creator" content="@betcompare" />
-        
+
         {/* Additional Meta Tags */}
         <meta name="format-detection" content="telephone=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="BetCompare" />
-        
+
         {/* Structured Data */}
         <script
           type="application/ld+json"
@@ -116,6 +117,9 @@ const Layout: React.FC<LayoutProps> = ({
       </Head>
 
       <div className="min-h-screen flex flex-col bg-white">
+        {/* Scroll Progress Indicator */}
+        <ScrollProgress />
+
         {/* Header */}
         <Header isScrolled={isScrolled} />
 
@@ -140,4 +144,4 @@ const Layout: React.FC<LayoutProps> = ({
   );
 };
 
-export default Layout; 
+export default Layout;

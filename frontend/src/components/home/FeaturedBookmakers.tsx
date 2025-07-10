@@ -1,9 +1,10 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import BookmakerCard from '../ui/BookmakerCard';
 
 const FeaturedBookmakers: React.FC = () => {
-  const featuredBookmakers = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [bookmakers, setBookmakers] = useState([
     {
       id: '1',
       name: 'Betway',
@@ -46,7 +47,46 @@ const FeaturedBookmakers: React.FC = () => {
       min_deposit: 'KSh 40',
       payout_speed: '1-3 days'
     }
-  ];
+  ]);
+
+  useEffect(() => {
+    // Simulate API call
+    const loadBookmakers = async () => {
+      try {
+        setIsLoading(true);
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        //setBookmakers(mockBookmakers);
+      } catch (err) {
+        setError('Failed to load bookmakers');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadBookmakers();
+  }, []);
+
+  if (error) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
+              <h3 className="text-red-800 font-semibold mb-2">Unable to Load Bookmakers</h3>
+              <p className="text-red-600 text-sm mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 bg-white">
@@ -63,13 +103,21 @@ const FeaturedBookmakers: React.FC = () => {
 
         {/* Featured Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredBookmakers.map((bookmaker, index) => (
-            <BookmakerCard 
-              key={bookmaker.id} 
-              bookmaker={bookmaker} 
-              featured={index === 0}
-            />
-          ))}
+          {isLoading ? (
+            // Show skeleton loaders while loading
+            Array.from({ length: 3 }).map((_, index) => (
+              <div key={index}>Loading...</div>
+            ))
+          ) : (
+            // Show actual bookmaker cards
+            bookmakers.map((bookmaker, index) => (
+              <BookmakerCard 
+                key={bookmaker.id} 
+                bookmaker={bookmaker} 
+                featured={index === 0}
+              />
+            ))
+          )}
         </div>
 
         {/* CTA Section */}
