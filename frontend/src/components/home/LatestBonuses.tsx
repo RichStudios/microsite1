@@ -1,185 +1,171 @@
+
 import React from 'react';
 import Link from 'next/link';
-import { FiGift, FiCalendar, FiArrowRight, FiPercent } from 'react-icons/fi';
-
-// Utils
-import { trackButtonClick } from '../../utils/analytics';
-import { handleImageError } from '../../utils/imageUtils';
+import Image from 'next/image';
 
 interface Bonus {
-  id: number;
+  id: string;
   bookmaker: string;
   logo: string;
   title: string;
   amount: string;
-  description: string;
+  type: string;
   wagering: string;
   minDeposit: string;
-  expiresAt: string;
-  isNew: boolean;
-  isPopular: boolean;
-  affiliate_link: string;
+  expiryDays: number;
+  terms: string[];
+  featured: boolean;
 }
 
-const LatestBonuses: React.FC = () => {
-  const latestBonuses: Bonus[] = [
-    {
-      id: 1,
-      bookmaker: 'Betway',
-      logo: '/images/logos/betway-logo.png',
-      title: 'Welcome Bonus',
-      amount: 'Up to KES 1,000',
-      description: '100% deposit bonus on your first deposit',
-      wagering: '5x',
-      minDeposit: 'KES 100',
-      expiresAt: '2024-12-31',
-      isNew: true,
-      isPopular: true,
-      affiliate_link: '#',
-    },
-    {
-      id: 2,
-      bookmaker: 'MelBet',
-      logo: '/images/logos/melbet-logo.png',
-      title: 'Mega Welcome Bonus',
-      amount: 'Up to KES 20,000',
-      description: '100% first deposit bonus up to KES 20,000',
-      wagering: '5x',
-      minDeposit: 'KES 200',
-      expiresAt: '2024-12-31',
-      isNew: false,
-      isPopular: true,
-      affiliate_link: '#',
-    },
-    {
-      id: 3,
-      bookmaker: '1xBet',
-      logo: '/images/logos/1xbet-logo.png',
-      title: 'New Player Bonus',
-      amount: 'Up to KES 15,000',
-      description: 'Get 100% bonus on your first deposit',
-      wagering: '5x',
-      minDeposit: 'KES 100',
-      expiresAt: '2024-12-31',
-      isNew: false,
-      isPopular: false,
-      affiliate_link: '#',
-    },
-    {
-      id: 4,
-      bookmaker: 'Odibets',
-      logo: '/images/logos/odibets-logo.png',
-      title: 'First Deposit Bonus',
-      amount: 'Up to KES 5,000',
-      description: '50% bonus on your first deposit',
-      wagering: '6x',
-      minDeposit: 'KES 50',
-      expiresAt: '2024-12-31',
-      isNew: true,
-      isPopular: false,
-      affiliate_link: '#',
-    },
-  ];
-
-  const handleClaimBonus = (bonusId: number, bookmaker: string) => {
-    trackButtonClick('claim_bonus', 'latest_bonuses');
-  };
-
+const BonusCard: React.FC<{ bonus: Bonus }> = ({ bonus }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {latestBonuses.map((bonus) => (
-        <div
-          key={bonus.id}
-          className="card hover:shadow-medium transition-all duration-300 group relative overflow-hidden"
-        >
-          {/* Badges */}
-          <div className="absolute top-3 right-3 flex flex-col space-y-1">
-            {bonus.isNew && (
-              <span className="bg-secondary text-white text-xs px-2 py-1 rounded-full font-medium">
-                New
-              </span>
-            )}
-            {bonus.isPopular && (
-              <span className="bg-primary text-white text-xs px-2 py-1 rounded-full font-medium">
-                Popular
-              </span>
-            )}
-          </div>
-
-          {/* Bookmaker Info */}
-          <div className="flex items-center space-x-3 mb-4">
-            <img
+    <div className={`bg-white border rounded-xl p-6 hover:shadow-lg transition-shadow ${
+      bonus.featured ? 'border-primary-orange shadow-md' : 'border-gray-200'
+    }`}>
+      {/* Header */}
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="relative w-10 h-10 rounded-lg overflow-hidden">
+            <Image
               src={bonus.logo}
-              alt={bonus.bookmaker}
-              className="h-10 w-10 object-contain"
-              onError={(e) => handleImageError(e, bonus.bookmaker, 'bookmaker')}
+              alt={`${bonus.bookmaker} logo`}
+              fill
+              className="object-contain"
             />
-            <div>
-              <h3 className="font-semibold text-primary">{bonus.bookmaker}</h3>
-              <p className="text-sm text-gray-600">{bonus.title}</p>
-            </div>
           </div>
-
-          {/* Bonus Amount */}
-          <div className="text-center mb-4">
-            <div className="bg-gradient-to-r from-secondary to-secondary/80 text-white rounded-lg p-3">
-              <FiGift className="h-5 w-5 mx-auto mb-1" />
-              <div className="text-lg font-bold">{bonus.amount}</div>
-            </div>
-          </div>
-
-          {/* Description */}
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-            {bonus.description}
-          </p>
-
-          {/* Bonus Details */}
-          <div className="space-y-2 mb-4">
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-600">Wagering:</span>
-              <span className="font-medium flex items-center">
-                <FiPercent className="h-3 w-3 mr-1" />
-                {bonus.wagering}
-              </span>
-            </div>
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-600">Min Deposit:</span>
-              <span className="font-medium">{bonus.minDeposit}</span>
-            </div>
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-600">Expires:</span>
-              <span className="font-medium flex items-center">
-                <FiCalendar className="h-3 w-3 mr-1" />
-                {new Date(bonus.expiresAt).toLocaleDateString('en-GB', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric'
-                })}
-              </span>
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="space-y-2">
-            <Link
-              href={bonus.affiliate_link}
-              onClick={() => handleClaimBonus(bonus.id, bonus.bookmaker)}
-              className="btn btn-primary btn-sm w-full inline-flex items-center justify-center"
-            >
-              Claim Bonus
-              <FiArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-            <Link
-              href={`/bonuses/${bonus.bookmaker.toLowerCase()}`}
-              className="btn btn-outline btn-sm w-full text-center"
-            >
-              View Details
-            </Link>
+          <div>
+            <h3 className="font-semibold text-gray-900">{bonus.bookmaker}</h3>
+            <span className={`text-xs px-2 py-1 rounded-full ${
+              bonus.type === 'Welcome Bonus' 
+                ? 'bg-blue-100 text-blue-800' 
+                : 'bg-purple-100 text-purple-800'
+            }`}>
+              {bonus.type}
+            </span>
           </div>
         </div>
-      ))}
+        {bonus.featured && (
+          <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2 py-1 rounded">
+            Hot Deal
+          </span>
+        )}
+      </div>
+
+      {/* Bonus Amount */}
+      <div className="mb-4 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+        <div className="text-sm font-medium text-gray-700 mb-1">{bonus.title}</div>
+        <div className="text-2xl font-bold text-gray-900">{bonus.amount}</div>
+      </div>
+
+      {/* Terms Grid */}
+      <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+        <div>
+          <span className="text-gray-600">Min Deposit:</span>
+          <span className="font-medium text-gray-900 ml-1">{bonus.minDeposit}</span>
+        </div>
+        <div>
+          <span className="text-gray-600">Wagering:</span>
+          <span className="font-medium text-gray-900 ml-1">{bonus.wagering}</span>
+        </div>
+      </div>
+
+      {/* Expiry Notice */}
+      <div className="flex items-center gap-2 mb-4 p-2 bg-yellow-50 rounded-lg border border-yellow-200">
+        <svg className="w-4 h-4 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+        </svg>
+        <span className="text-sm text-yellow-800">Valid for {bonus.expiryDays} days</span>
+      </div>
+
+      {/* Action Button */}
+      <a
+        href="#"
+        className="w-full bg-primary-orange hover:bg-primary-orange/90 text-white py-3 px-4 rounded-lg font-semibold text-center transition-colors block"
+      >
+        Claim Bonus
+      </a>
     </div>
   );
 };
 
-export default LatestBonuses; 
+const LatestBonuses: React.FC = () => {
+  const bonuses: Bonus[] = [
+    {
+      id: '1',
+      bookmaker: 'Betway',
+      logo: '/images/logos/betway-logo.png',
+      title: 'Welcome Sports Bonus',
+      amount: 'Up to KSh 10,000',
+      type: 'Welcome Bonus',
+      wagering: '3x odds 1.75+',
+      minDeposit: 'KSh 50',
+      expiryDays: 30,
+      terms: ['Valid for 30 days', 'Min odds 1.75', '3x wagering requirement'],
+      featured: true
+    },
+    {
+      id: '2',
+      bookmaker: '1XBet',
+      logo: '/images/logos/1xbet-logo.png',
+      title: 'First Deposit Bonus',
+      amount: 'Up to KSh 15,000',
+      type: 'Welcome Bonus',
+      wagering: '5x accumulator',
+      minDeposit: 'KSh 100',
+      expiryDays: 30,
+      terms: ['30 day validity', 'Accumulator bets only', '5x rollover'],
+      featured: false
+    },
+    {
+      id: '3',
+      bookmaker: 'MelBet',
+      logo: '/images/logos/melbet-logo.png',
+      title: 'Sports Welcome Package',
+      amount: 'Up to KSh 8,000',
+      type: 'Welcome Bonus',
+      wagering: '5x combo bets',
+      minDeposit: 'KSh 40',
+      expiryDays: 7,
+      terms: ['7 day validity', 'Combo bets required', 'Min 3 selections'],
+      featured: false
+    }
+  ];
+
+  return (
+    <section className="py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Latest Betting Bonuses
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Grab the best welcome bonuses and free bets from top Kenyan bookmakers
+          </p>
+        </div>
+
+        {/* Bonuses Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {bonuses.map((bonus) => (
+            <BonusCard key={bonus.id} bonus={bonus} />
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center">
+          <Link
+            href="/bonuses"
+            className="inline-flex items-center gap-2 bg-primary-navy hover:bg-primary-navy/90 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors"
+          >
+            View All Bonuses
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default LatestBonuses;
