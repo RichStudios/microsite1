@@ -72,6 +72,9 @@ const BookmakerCard: React.FC<BookmakerCardProps> = ({
                 alt={`${bookmaker.name} logo`}
                 fill
                 className="object-contain"
+                onError={(e) => {
+                  e.currentTarget.src = '/images/logos/placeholder-logo.svg';
+                }}
               />
             </div>
             <div>
@@ -108,6 +111,9 @@ const BookmakerCard: React.FC<BookmakerCardProps> = ({
               alt={`${bookmaker.name} logo`}
               fill
               className="object-contain"
+              onError={(e) => {
+                e.currentTarget.src = '/images/logos/placeholder-logo.svg';
+              }}
             />
           </div>
           <div>

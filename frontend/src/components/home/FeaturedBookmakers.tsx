@@ -8,7 +8,7 @@ const FeaturedBookmakers: React.FC = () => {
     {
       id: '1',
       name: 'Betway',
-      logo: '/images/logos/betway-logo.png',
+      logo: '/images/logos/placeholder-logo.svg',
       rating: 4.8,
       bonus: 'Up to KSh 10,000 Welcome Bonus',
       features: ['M-Pesa Support', 'Live Betting', 'Mobile App', 'Fast Payouts'],
@@ -22,7 +22,7 @@ const FeaturedBookmakers: React.FC = () => {
     {
       id: '2',
       name: '1XBet',
-      logo: '/images/logos/1xbet-logo.png',
+      logo: '/images/logos/placeholder-logo.svg',
       rating: 4.6,
       bonus: 'Up to KSh 15,000 First Deposit Bonus',
       features: ['Huge Markets', 'Live Streaming', 'Cryptocurrency', 'Casino Games'],
@@ -36,7 +36,7 @@ const FeaturedBookmakers: React.FC = () => {
     {
       id: '3',
       name: 'MelBet',
-      logo: '/images/logos/melbet-logo.png',
+      logo: '/images/logos/placeholder-logo.svg',
       rating: 4.5,
       bonus: 'Up to KSh 8,000 Welcome Package',
       features: ['M-Pesa Ready', 'Live Casino', 'Virtual Sports', 'Mobile Optimized'],

@@ -31,6 +31,9 @@ const BonusCard: React.FC<{ bonus: Bonus }> = ({ bonus }) => {
               alt={`${bonus.bookmaker} logo`}
               fill
               className="object-contain"
+              onError={(e) => {
+                e.currentTarget.src = '/images/logos/placeholder-logo.svg';
+              }}
             />
           </div>
           <div>
@@ -93,7 +96,7 @@ const LatestBonuses: React.FC = () => {
     {
       id: '1',
       bookmaker: 'Betway',
-      logo: '/images/logos/betway-logo.png',
+      logo: '/images/logos/placeholder-logo.svg',
       title: 'Welcome Sports Bonus',
       amount: 'Up to KSh 10,000',
       type: 'Welcome Bonus',
@@ -106,7 +109,7 @@ const LatestBonuses: React.FC = () => {
     {
       id: '2',
       bookmaker: '1XBet',
-      logo: '/images/logos/1xbet-logo.png',
+      logo: '/images/logos/placeholder-logo.svg',
       title: 'First Deposit Bonus',
       amount: 'Up to KSh 15,000',
       type: 'Welcome Bonus',
@@ -119,7 +122,7 @@ const LatestBonuses: React.FC = () => {
     {
       id: '3',
       bookmaker: 'MelBet',
-      logo: '/images/logos/melbet-logo.png',
+      logo: '/images/logos/placeholder-logo.svg',
       title: 'Sports Welcome Package',
       amount: 'Up to KSh 8,000',
       type: 'Welcome Bonus',
