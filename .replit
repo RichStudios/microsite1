@@ -6,3 +6,19 @@ channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "npm run dev"]
+
+[[ports]]
+localPort = 3001
+externalPort = 80
+
+[workflows]
+runButton = "Phase 2 Development"
+
+[[workflows.workflow]]
+name = "Phase 2 Development"
+author = 41555641
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm run dev"
