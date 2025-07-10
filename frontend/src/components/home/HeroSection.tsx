@@ -240,9 +240,11 @@ const HeroSection: React.FC = () => {
       <div className={`relative z-10 max-w-7xl mx-auto ${adaptiveLayout?.padding} text-center`}>
         <div className={contentMaxWidth}>
           <div className={adaptiveLayout?.contentSpacing}>
-            {/* Badge */}
-            <div className={`inline-flex items-center ${heroTypography?.badge} bg-white/20 backdrop-blur-sm rounded-full text-white font-medium`}>
-              <FiShield className={`mr-2 ${adaptiveLayout?.iconSize}`} />
+            {/* Enhanced Badge with Glow Effect */}
+            <div className={`inline-flex items-center ${heroTypography?.badge} bg-white/20 backdrop-blur-sm rounded-full text-white font-medium border border-white/30 shadow-glow hover:bg-white/30 transition-all duration-300 transform hover:scale-105`}>
+              <div className="bg-gradient-to-r from-white/20 to-transparent rounded-full p-1 mr-2">
+                <FiShield className={`${adaptiveLayout?.iconSize} text-white drop-shadow-sm`} />
+              </div>
               <span className={isMobile ? 'hidden sm:inline' : 'inline'}>
                 Kenya's Most Trusted Betting Comparison Platform
               </span>

@@ -238,14 +238,22 @@ const AboutPage: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
-                <div key={index} className="text-center">
-                  <div className="bg-gray-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <feature.icon className="h-8 w-8 text-primary" />
+                <div 
+                  key={index} 
+                  className="text-center group hover:transform hover:scale-105 transition-all duration-500"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="relative">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-soft group-hover:shadow-medium transition-all duration-500 group-hover:from-primary/10 group-hover:to-secondary/10">
+                      <feature.icon className="h-10 w-10 text-primary group-hover:scale-110 transition-transform duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent rounded-2xl" />
+                    </div>
+                    <div className="absolute -inset-2 bg-gradient-to-r from-primary to-secondary rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-primary transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
                     {feature.description}
                   </p>
                 </div>

@@ -712,31 +712,40 @@ const BonusesPage: React.FC = () => {
             </div>
           </div>
 
-          {/* CTA Section */}
-          <div className="mt-12 text-center">
-            <div className="bg-gradient-to-r from-primary to-primary-dark text-white rounded-lg p-8">
-              <h2 className="text-2xl font-heading font-bold mb-4">
-                Need Help Choosing the Right Bonus?
-              </h2>
-              <p className="text-primary-100 mb-6">
-                Read our comprehensive bookmaker reviews to understand which bonus suits your betting style best.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/review"
-                  className="btn btn-secondary btn-lg"
-                  onClick={() => trackButtonClick('read_reviews', 'bonuses_page')}
-                >
-                  Read Reviews
-                </a>
-                <a
-                  href="/compare"
-                  className="btn btn-outline btn-lg border-white text-white hover:bg-white hover:text-primary"
-                  onClick={() => trackButtonClick('compare_bookmakers', 'bonuses_page')}
-                >
-                  Compare Bookmakers
-                </a>
+          {/* Enhanced CTA Section */}
+          <div className="mt-16 text-center">
+            <div className="relative bg-gradient-to-br from-primary via-primary-600 to-secondary text-white rounded-3xl p-12 overflow-hidden shadow-strong">
+              {/* Floating Background Elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl transform translate-x-8 -translate-y-8" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl transform -translate-x-4 translate-y-4" />
+              
+              <div className="relative z-10">
+                <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6 gradient-text bg-white">
+                  Need Help Choosing the Right Bonus?
+                </h2>
+                <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
+                  Read our comprehensive bookmaker reviews to understand which bonus suits your betting style best.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                  <a
+                    href="/review"
+                    className="btn btn-secondary btn-lg transform hover:scale-105"
+                    onClick={() => trackButtonClick('read_reviews', 'bonuses_page')}
+                  >
+                    Read Reviews
+                  </a>
+                  <a
+                    href="/compare"
+                    className="btn btn-outline btn-lg border-white text-white hover:bg-white hover:text-primary backdrop-blur-sm"
+                    onClick={() => trackButtonClick('compare_bookmakers', 'bonuses_page')}
+                  >
+                    Compare Bookmakers
+                  </a>
+                </div>
               </div>
+              
+              {/* Animated Border */}
+              <div className="absolute inset-0 rounded-3xl border border-white/20 animate-pulse" />
             </div>
           </div>
         </div>

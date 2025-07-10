@@ -57,27 +57,37 @@ const StatsSection: React.FC = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="text-center group hover:transform hover:scale-105 transition-all duration-300"
+              className="text-center group hover:transform hover:scale-105 transition-all duration-500"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="bg-white rounded-xl shadow-soft p-6 hover:shadow-medium transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <div className={`p-3 rounded-full bg-gray-100 group-hover:bg-gray-200 transition-colors`}>
-                    <stat.icon className={`h-8 w-8 ${stat.color}`} />
+              <div className="relative bg-white rounded-2xl shadow-soft p-8 hover:shadow-strong transition-all duration-500 border border-gray-100 hover:border-primary/20 overflow-hidden">
+                {/* Floating Background Effect */}
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 transform group-hover:scale-150" />
+                
+                <div className="relative z-10">
+                  <div className="flex justify-center mb-6">
+                    <div className={`relative p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-500 shadow-inner`}>
+                      <stat.icon className={`h-10 w-10 ${stat.color} transform group-hover:scale-110 transition-transform duration-300`} />
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent rounded-2xl" />
+                    </div>
                   </div>
+                  
+                  <div className="mb-4">
+                    <div className={`text-4xl font-bold ${stat.color} mb-2 group-hover:scale-110 transition-transform duration-300`}>
+                      {stat.value}
+                    </div>
+                    <h3 className="text-xl font-semibold text-primary group-hover:text-primary-600 transition-colors duration-300">
+                      {stat.label}
+                    </h3>
+                  </div>
+                  
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
+                    {stat.description}
+                  </p>
                 </div>
                 
-                <div className="mb-2">
-                  <div className={`text-3xl font-bold ${stat.color} mb-1`}>
-                    {stat.value}
-                  </div>
-                  <h3 className="text-lg font-semibold text-primary">
-                    {stat.label}
-                  </h3>
-                </div>
-                
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {stat.description}
-                </p>
+                {/* Subtle Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
               </div>
             </div>
           ))}
